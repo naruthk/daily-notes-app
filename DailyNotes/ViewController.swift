@@ -71,6 +71,7 @@ class ViewController: UIViewController, UITextViewDelegate {
             // - Save the date (timestamp)
             // - Cache it in a data server
             // - Perhaps user's iCloud / physical device storage
+            let date = Date()
             
             
             

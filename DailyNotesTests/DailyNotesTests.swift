@@ -33,4 +33,19 @@ class DailyNotesTests: XCTestCase {
         }
     }
     
+    //MARK: Note Class Tests
+    
+    // Confirm that the Note initializer returns a Note object when passed valid parameters
+    func testNoteInitializationSucceeds() {
+        let currentDate = Date()
+        let writtenStringNote = Note.init(date: currentDate, note: "Starting my diary today")
+        XCTAssertNotNil(writtenStringNote)
+    }
+    
+    // Comfirm that the NOte initializer returns nil when passed an empty string
+    func testNoteInitializerFails() {
+        let currentDate = Date()
+        let emptyStringNote = Note.init(date: currentDate, note: "")
+        XCTAssertNil(emptyStringNote)
+    }
 }
