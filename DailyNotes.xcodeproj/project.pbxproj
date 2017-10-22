@@ -42,6 +42,7 @@
 		8B97A3281F9C578F00A006CA /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		8B97A32A1F9C5E1D00A006CA /* NoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableViewCell.swift; sourceTree = "<group>"; };
 		8B97A32E1F9C688100A006CA /* NoteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableViewController.swift; sourceTree = "<group>"; };
+		8B97A3301F9D0E2400A006CA /* DailyNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyNotes.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +84,7 @@
 		8B33FF2A1F9B1C2200E3762B /* DailyNotes */ = {
 			isa = PBXGroup;
 			children = (
+				8B97A3301F9D0E2400A006CA /* DailyNotes.entitlements */,
 				8B33FF2B1F9B1C2200E3762B /* AppDelegate.swift */,
 				8B33FF2D1F9B1C2200E3762B /* ViewController.swift */,
 				8B97A3281F9C578F00A006CA /* Note.swift */,
@@ -156,6 +158,11 @@
 					8B33FF271F9B1C2200E3762B = {
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 					8B33FF3B1F9B1C2200E3762B = {
 						CreatedOnToolsVersion = 9.0.1;

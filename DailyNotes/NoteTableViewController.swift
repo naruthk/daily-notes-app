@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class NoteTableViewController: UITableViewController {
     
@@ -15,15 +16,17 @@ class NoteTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Load the sample note data
-        loadSampleNotes()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        // Display an Edit button in the navigation bar for this view controller.
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
+        // Load any saved notes, otherwise load sample data.
+        if let savedNotes = loadNotes() {
+            notes += savedNotes
+        } else {
+            // Load the sample note data
+            loadSampleNotes()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,25 +58,24 @@ class NoteTableViewController: UITableViewController {
         return cell
     }
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            notes.remove(at: indexPath.row)
+            // Save the notes.
+            saveNotes()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -90,23 +92,52 @@ class NoteTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        switch(segue.identifier ?? "") {
+            case "AddNote":
+                let generator = UIImpactFeedbackGenerator(style: .heavy)
+                generator.impactOccurred()
+                os_log("Adding a new note.", log: OSLog.default, type: .debug)
+            case "ShowDetail":
+                guard let noteDetailViewController = segue.destination as? ViewController else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+                }
+                
+                guard let selectedNoteCell = sender as? NoteTableViewCell else {
+                    fatalError("Unexpected sender: \(sender)")
+                }
+                
+                guard let indexPath = tableView.indexPath(for: selectedNoteCell) else {
+                    fatalError("The selected cell is not being displayed by the table")
+                }
+                
+                let selectedNote = notes[indexPath.row]
+                noteDetailViewController.note = selectedNote
+            default:
+                fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        }
     }
-    */
     
     //MARK: Actions
     @IBAction func unwindToNoteList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? ViewController, let note = sourceViewController.note {
-            // Add a new note
-            let newIndexPath = IndexPath(row: notes.count, section: 0)
-            notes.append(note)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            // In case the user wants to edit an existing note...
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing note.
+                notes[selectedIndexPath.row] = note
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            } else {
+                // Add a new note
+                let newIndexPath = IndexPath(row: notes.count, section: 0)
+                notes.append(note)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+            // Save the notes.
+            saveNotes()
         }
     }
     
@@ -134,6 +165,19 @@ class NoteTableViewController: UITableViewController {
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter.string(from: calendar)
+    }
+    
+    private func saveNotes() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(notes, toFile: Note.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Notes successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save notes...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadNotes() -> [Note]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Note.ArchiveURL.path) as? [Note]
     }
 
 }

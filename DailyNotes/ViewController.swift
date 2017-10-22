@@ -16,6 +16,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var charCountLabel: UILabel!
     @IBOutlet weak var newNoteLabel: UIButton!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var noteTitleLabel: UINavigationItem!
     
     var note: Note?         // Optional .. may be nil
     
@@ -25,6 +26,16 @@ class ViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         notesTextView.delegate = self
+        
+        // Increase font size to 17
+        notesTextView.font = .systemFont(ofSize: 17)
+        
+        // Set up views if editing an existing Note.
+        if let note = note {
+            noteTitleLabel.title = "Edit Note"
+            notesTextView.text   = note.note
+            charCountLabel.text = "\(notesTextView.text.characters.count) characters"
+        }
         
         // Create a "Done" keyword
         let toolbar = UIToolbar()
@@ -53,13 +64,26 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Distraction-free writing. Forming notes have never been this easy. They shouldn't be hard! Well, happy writing!" || textView.text == welcomeMsg {
-            textView.text = ""
-            textView.textColor = UIColor.black
-        }
+//        if textView.text == "Distraction-free writing. Forming notes have never been this easy. They shouldn't be hard! Well, happy writing!" || textView.text == welcomeMsg {
+//            textView.text = ""
+//            textView.textColor = UIColor.black
+//        }
     }
     
     //MARK: Navigation
+    @IBAction func cancelNoteButton(_ sender: UIBarButtonItem) {
+        // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        if isPresentingInAddMealMode {
+            dismiss(animated: true, completion: nil)
+        } else if let owningNavigationController = navigationController{
+            owningNavigationController.popViewController(animated: true)
+        } else {
+            fatalError("The MealViewController is not inside a navigation controller.")
+        }
+//        dismiss(animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -73,7 +97,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     //MARK: Actions
-    @objc func doneClicked() {
+    @objc func doneClicked() {        
         self.view.endEditing(true)  // Hide the keyboard
         notesTextView.textColor = UIColor.darkGray  // Set the note color back to gray
         
@@ -90,8 +114,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
-        generator.impactOccurred()
+        // Do some feedback?
     }
     
 //    @IBAction func newNoteButton(_ sender: UIButton) {
