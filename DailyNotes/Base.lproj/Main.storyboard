@@ -139,13 +139,13 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Add A Note" id="Zbq-OV-zuK">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" image="cancelImage-White" id="Myj-la-6mq">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Myj-la-6mq">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancelNoteButton:" destination="BYZ-38-t0r" id="U3j-Ak-oa4"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save" image="saveNoteImage" id="SgG-Mh-pE5">
+                        <barButtonItem key="rightBarButtonItem" title="Save" image="completeImage" id="SgG-Mh-pE5">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="saveButton:" destination="BYZ-38-t0r" id="FKa-Mf-Beh"/>
@@ -210,9 +210,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cancelImage-White" width="16" height="16"/>
+        <image name="completeImage" width="16" height="16"/>
         <image name="newNoteImage" width="16" height="16"/>
-        <image name="saveNoteImage" width="16" height="16"/>
         <image name="singleNoteImage" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
