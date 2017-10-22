@@ -11,11 +11,11 @@ import UIKit
 class Note {
     
     //MARK: Properties
-    var date: Date
+    var date: String
     var note: String
     
     //MARK: Initialization
-    init?(date: Date, note: String) {
+    init?(date: String, note: String) {
         guard !note.isEmpty else {
             return nil
         }

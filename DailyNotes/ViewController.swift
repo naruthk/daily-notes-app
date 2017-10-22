@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class ViewController: UIViewController, UITextViewDelegate {
     
@@ -14,6 +15,9 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var charCountLabel: UILabel!
     @IBOutlet weak var newNoteLabel: UIButton!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    var note: Note?         // Optional .. may be nil
     
     private let welcomeMsg : String = "Touch here to begin typing. Words away!"
     
@@ -55,6 +59,19 @@ class ViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    //MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        // Configure the destination view controller only when the save button is pressed
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
+        
+        saveData()
+    }
+    
     //MARK: Actions
     @objc func doneClicked() {
         self.view.endEditing(true)  // Hide the keyboard
@@ -67,32 +84,44 @@ class ViewController: UIViewController, UITextViewDelegate {
         } else {
             charCountLabel.text = String(charCount) + " characters"
             
-            //TODO: Save the user's data
-            // - Save the date (timestamp)
-            // - Cache it in a data server
-            // - Perhaps user's iCloud / physical device storage
-            let date = Date()
-            
-            
-            
+            //MARK: Save User's Data
+            saveData()
         }
     }
     
-    @IBAction func newNoteButton(_ sender: UIButton) {
-        // Do something when the user hits a new button
-        //  - Perhaps (1) save the note the user made (if it's edited)
-        //  - and (2) form a new note page
-        
-        // Haptic feedback when user press the button
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
-        
-        //TODO: Save the user's notes somewhere
-        
-        // Reset textview to blank & reset character count to 0
-        notesTextView.text = welcomeMsg
-        charCountLabel.text = "0 character"
-        
+    }
+    
+//    @IBAction func newNoteButton(_ sender: UIButton) {
+//        // Do something when the user hits a new button
+//        //  - Perhaps (1) save the note the user made (if it's edited)
+//        //  - and (2) form a new note page
+//
+//        // Haptic feedback when user press the button
+//        let generator = UIImpactFeedbackGenerator(style: .heavy)
+//        generator.impactOccurred()
+//
+//        //TODO: Save the user's notes somewhere
+//
+//        // Reset textview to blank & reset character count to 0
+//        notesTextView.text = welcomeMsg
+//        charCountLabel.text = "0 character"
+//
+//    }
+    
+    private func saveData() {
+        let noteMsg = notesTextView.text ?? ""
+        let noteDate = dateFormatterToString(calendar: Date.init())
+        note = Note(date: noteDate, note: noteMsg)
+    }
+    
+    private func dateFormatterToString(calendar: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: calendar)
     }
     
 }

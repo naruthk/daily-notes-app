@@ -14,6 +14,8 @@
 		8B33FF361F9B1C2200E3762B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B33FF341F9B1C2200E3762B /* LaunchScreen.storyboard */; };
 		8B33FF411F9B1C2200E3762B /* DailyNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B33FF401F9B1C2200E3762B /* DailyNotesTests.swift */; };
 		8B97A3291F9C578F00A006CA /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97A3281F9C578F00A006CA /* Note.swift */; };
+		8B97A32B1F9C5E1D00A006CA /* NoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97A32A1F9C5E1D00A006CA /* NoteTableViewCell.swift */; };
+		8B97A32F1F9C688100A006CA /* NoteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97A32E1F9C688100A006CA /* NoteTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		8B33FF401F9B1C2200E3762B /* DailyNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyNotesTests.swift; sourceTree = "<group>"; };
 		8B33FF421F9B1C2200E3762B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B97A3281F9C578F00A006CA /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		8B97A32A1F9C5E1D00A006CA /* NoteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableViewCell.swift; sourceTree = "<group>"; };
+		8B97A32E1F9C688100A006CA /* NoteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,8 @@
 				8B33FF2B1F9B1C2200E3762B /* AppDelegate.swift */,
 				8B33FF2D1F9B1C2200E3762B /* ViewController.swift */,
 				8B97A3281F9C578F00A006CA /* Note.swift */,
+				8B97A32A1F9C5E1D00A006CA /* NoteTableViewCell.swift */,
+				8B97A32E1F9C688100A006CA /* NoteTableViewController.swift */,
 				8B33FF2F1F9B1C2200E3762B /* Main.storyboard */,
 				8B33FF321F9B1C2200E3762B /* Assets.xcassets */,
 				8B33FF341F9B1C2200E3762B /* LaunchScreen.storyboard */,
@@ -205,6 +211,8 @@
 				8B33FF2E1F9B1C2200E3762B /* ViewController.swift in Sources */,
 				8B33FF2C1F9B1C2200E3762B /* AppDelegate.swift in Sources */,
 				8B97A3291F9C578F00A006CA /* Note.swift in Sources */,
+				8B97A32F1F9C688100A006CA /* NoteTableViewController.swift in Sources */,
+				8B97A32B1F9C5E1D00A006CA /* NoteTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
